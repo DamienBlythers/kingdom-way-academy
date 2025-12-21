@@ -56,7 +56,7 @@ export async function POST(
 
     // Create new Mux asset
     const asset = await mux.video.assets.create({
-      input: [{ url: videoUrl }],
+      inputs: [{ url: videoUrl }],
       playback_policy: ["public"],
       encoding_tier: "baseline",
     });
