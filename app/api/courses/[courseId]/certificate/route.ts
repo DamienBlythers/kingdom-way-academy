@@ -130,8 +130,8 @@ export async function GET(
       certificateId: certificate.id,
     });
 
-    // Return PDF
-    return new NextResponse(pdfBuffer, {
+    // Return PDF - Convert Buffer to ArrayBuffer
+    return new NextResponse(Uint8Array.from(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="certificate-${course.title.replace(/\s+/g, "-")}.pdf"`,
@@ -145,4 +145,3 @@ export async function GET(
     );
   }
 }
-
