@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { prisma } from "@/lib/prisma";
 import { mux } from "@/lib/mux";
 import { headers } from "next/headers";

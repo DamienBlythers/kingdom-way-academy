@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

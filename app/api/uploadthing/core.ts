@@ -1,5 +1,5 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { headers } from "next/headers";
 
 const f = createUploadthing();

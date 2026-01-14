@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { headers } from "next/headers";
 import { MainNav } from "@/components/navigation/main-nav";
 

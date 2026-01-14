@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
@@ -11,6 +11,8 @@ export async function POST(
 ) {
   try {
     const { courseId } = await params;
+    
+    // Get user session using helper
     const session = await auth.api.getSession({
       headers: await headers(),
     });

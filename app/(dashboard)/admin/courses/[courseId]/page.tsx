@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/clerk-auth-helper";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { CourseEditTabs } from "./_components/course-edit-tabs";

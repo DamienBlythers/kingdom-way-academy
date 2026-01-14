@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { resend } from "@/lib/resend";
 import { enrollmentEmailTemplate } from "@/lib/email-templates";
+import { clerkClient } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -26,7 +27,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.metadata?.userId;
@@ -49,29 +49,29 @@ export async function POST(req: NextRequest) {
 
     console.log(`✅ Enrollment created: User ${userId} → Course ${courseId}`);
 
-    // Get user and course details for email
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    // Get user from Clerk and course from database
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
     const course = await prisma.course.findUnique({ where: { id: courseId } });
 
     if (user && course) {
       try {
         const emailContent = enrollmentEmailTemplate({
-          userName: user.name || user.email,
+          userName: user.firstName || user.emailAddresses[0]?.emailAddress || "Student",
           courseName: course.title,
           courseUrl: `${process.env.NEXT_PUBLIC_APP_URL}/courses/${courseId}`,
         });
 
         await resend.emails.send({
           from: "Kingdom Way Academy <onboarding@resend.dev>",
-          to: user.email,
+          to: user.emailAddresses[0]?.emailAddress || "",
           subject: emailContent.subject,
           html: emailContent.html,
         });
 
-        console.log(`📧 Enrollment email sent to ${user.email}`);
+        console.log(`📧 Enrollment email sent to ${user.emailAddresses[0]?.emailAddress}`);
       } catch (emailError) {
         console.error("Failed to send enrollment email:", emailError);
-        // Don't fail the webhook if email fails
       }
     }
   }

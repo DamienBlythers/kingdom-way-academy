@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,12 +16,11 @@ interface CoursePageProps {
 export default async function CoursePage({ params }: CoursePageProps) {
   const { courseId } = await params;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  // Get Clerk user ID
+  const { userId } = await auth();
 
-  if (!session?.user?.id) {
-    redirect("/login");
+  if (!userId) {
+    redirect("/sign-in");
   }
 
   const course = await prisma.course.findUnique({
@@ -56,7 +54,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
   const enrollment = await prisma.enrollment.findUnique({
     where: {
       userId_courseId: {
-        userId: session.user.id,
+        userId: userId,
         courseId: course.id,
       },
     },
