@@ -14,12 +14,18 @@ const handleAuth = async () => {
 };
 
 export const ourFileRouter = {
-  courseImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+  // ... your existing routes (courseImage, courseVideo)
+  
+  // Kingdom Labs uploads
+  labPhoto: f({ image: { maxFileSize: "8MB", maxFileCount: 3 } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
-  courseVideo: f({ video: { maxFileSize: "512MB", maxFileCount: 1 } })
+    
+  labVideo: f({ video: { maxFileSize: "256MB", maxFileCount: 1 } })
+    .middleware(() => handleAuth())
+    .onUploadComplete(() => {}),
+    
+  labDocument: f({ pdf: { maxFileSize: "16MB", maxFileCount: 5 } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
 } satisfies FileRouter;
-
-export type OurFileRouter = typeof ourFileRouter;

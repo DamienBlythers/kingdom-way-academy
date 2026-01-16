@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LessonVideoForm } from "../../_components/lesson-video-form";
+import { LabsSection } from "./_components/labs-section";
 
 interface LessonEditPageProps {
   params: Promise<{
@@ -38,11 +39,18 @@ export default async function LessonEditPage({ params }: LessonEditPageProps) {
     redirect("/admin/courses");
   }
 
-  // Get lesson
+  // Get lesson with Kingdom Labs
   const lesson = await prisma.lesson.findUnique({
     where: {
       id: lessonId,
       chapterId,
+    },
+    include: {
+      kingdomLabs: {
+        orderBy: {
+          position: "asc",
+        },
+      },
     },
   });
 
@@ -71,11 +79,18 @@ export default async function LessonEditPage({ params }: LessonEditPageProps) {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-6">
         <LessonVideoForm
           initialData={lesson}
           courseId={courseId}
           chapterId={chapterId}
+        />
+
+        <LabsSection
+          lessonId={lessonId}
+          courseId={courseId}
+          chapterId={chapterId}
+          initialLabs={lesson.kingdomLabs}
         />
       </div>
     </div>
