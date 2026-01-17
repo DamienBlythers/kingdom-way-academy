@@ -13,7 +13,7 @@ export default async function DashboardLayout({
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   return (

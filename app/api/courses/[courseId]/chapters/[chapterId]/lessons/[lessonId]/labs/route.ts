@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ courseId: String; chapterId: String; lessonId: String }> }
+  { params }: { params: Promise<{ courseId: string; chapterId: string; lessonId: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -71,7 +71,7 @@ export async function POST(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ lessonId: String }> }
+  { params }: { params: Promise<{ lessonId: string }> }
 ) {
   try {
     const { lessonId } = await params;

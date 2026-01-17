@@ -13,13 +13,16 @@ export default async function DashboardLayout({
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   return (
     <div className="h-full flex flex-col">
       <div className="sticky top-0 z-50 bg-background border-b">
-        <MainNav user={{ email: session.user.email, isAdmin: true }} />
+        <MainNav user={{ 
+          email: session.user.email, 
+          isAdmin: session.user.isAdmin || false 
+        }} />
       </div>
       <main className="flex-1 overflow-auto">
         {children}

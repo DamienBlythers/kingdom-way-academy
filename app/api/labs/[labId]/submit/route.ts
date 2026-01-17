@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ labId: String }> }
+  { params }: { params: Promise<{ labId: string }> }
 ) {
   try {
     const { userId } = await auth();

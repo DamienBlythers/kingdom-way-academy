@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ submissionId: String }> }
+  { params }: { params: Promise<{ submissionId: string }> }
 ) {
   try {
     const { userId } = await auth();

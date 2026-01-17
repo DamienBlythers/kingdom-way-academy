@@ -12,7 +12,7 @@ export default async function CoursesPage() {
   });
 
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   const courses = await prisma.course.findMany({

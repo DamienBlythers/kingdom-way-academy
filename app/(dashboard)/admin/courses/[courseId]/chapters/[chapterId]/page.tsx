@@ -27,7 +27,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   // Verify course ownership

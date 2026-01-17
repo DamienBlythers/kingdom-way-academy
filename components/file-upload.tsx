@@ -1,6 +1,6 @@
 "use client";
 
-import { UploadDropzone } from "@/lib/uploadthing";
+import { UploadDropzone } from "@uploadthing/react";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { toast } from "sonner";
 import { X } from "lucide-react";
@@ -57,11 +57,11 @@ export const FileUpload = ({
       )}
 
       {(multiple || urls.length === 0) && (
-        <UploadDropzone
+        <UploadDropzone<typeof ourFileRouter, keyof typeof ourFileRouter>
           endpoint={endpoint}
           onClientUploadComplete={(res) => {
             if (res) {
-              const newUrls = res.map(file => file.url);
+              const newUrls = res.map((file: any) => file.url);
               if (multiple) {
                 onChange([...urls, ...newUrls]);
               } else {

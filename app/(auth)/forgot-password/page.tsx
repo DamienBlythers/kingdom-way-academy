@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
   return (
     <Card>
       <CardHeader>
-        <Link href="/login" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-2">
+        <Link href="/sign-in" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-2">
           <ArrowLeft className="h-4 w-4" />
           Back to login
         </Link>

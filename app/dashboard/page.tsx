@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   // Get user's enrollments with course details and progress

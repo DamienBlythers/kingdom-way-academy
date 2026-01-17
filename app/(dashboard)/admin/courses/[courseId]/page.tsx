@@ -20,7 +20,7 @@ export default async function CourseEditPage({ params }: CourseEditPageProps) {
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   const course = await prisma.course.findUnique({

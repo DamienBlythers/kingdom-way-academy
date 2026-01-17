@@ -20,7 +20,7 @@ interface Lab {
   requiresPhoto: boolean;
   requiresVideo: boolean;
   isGraded: boolean;
-  maxPoints?: number;
+  maxPoints?: number | null;
 }
 
 interface LabsSectionProps {
