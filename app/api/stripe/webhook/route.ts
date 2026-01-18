@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
+import { sendPaymentSuccessEmail } from "@/emails/send";
+import { STRIPE_PLANS, getPlanByPriceId } from "@/lib/stripe-plans";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -51,7 +53,27 @@ export async function POST(req: Request) {
           currentPeriodEnd: new Date(stripeSubscription.current_period_end * 1000),
         });
 
-        // TODO: Send welcome email here
+        // Get customer email and name from Stripe
+        const customer = await stripe.customers.retrieve(stripeSubscription.customer as string);
+        const customerEmail = (customer as Stripe.Customer).email;
+        const customerName = (customer as Stripe.Customer).name || "there";
+
+        // Get plan details
+        const priceId = stripeSubscription.items.data[0].price.id;
+        const planType = getPlanByPriceId(priceId);
+        const plan = planType ? STRIPE_PLANS[planType] : null;
+
+        // Send payment success email
+        if (customerEmail && plan) {
+          await sendPaymentSuccessEmail({
+            to: customerEmail,
+            userName: customerName,
+            planName: plan.name,
+            amount: `$${plan.price / 100}`,
+            nextBillingDate: new Date(stripeSubscription.current_period_end * 1000).toLocaleDateString(),
+          });
+        }
+
         break;
       }
 
