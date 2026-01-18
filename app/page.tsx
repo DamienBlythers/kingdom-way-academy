@@ -23,7 +23,10 @@ export default function Home() {
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/sign-in">
-              <Button variant="outline">Sign In</Button>
+              <Button variant="ghost">Sign In</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button>Sign Up</Button>
             </Link>
           </div>
         </div>
@@ -68,14 +71,14 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/browse">
+            <Link href="/sign-up">
               <Button size="lg" className="w-full sm:w-auto bg-blue-900 hover:bg-blue-800">
-                Browse Courses
+                Get Started Free
               </Button>
             </Link>
-            <Link href="/sign-in">
+            <Link href="/browse">
               <Button size="lg" variant="outline" className="w-full sm:w-auto border-blue-900 text-blue-900 hover:bg-blue-50">
-                Get Started
+                Browse Courses
               </Button>
             </Link>
           </div>
