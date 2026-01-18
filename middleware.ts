@@ -1,5 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { currentUser } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 // Define which routes require authentication
@@ -19,23 +18,8 @@ export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
     await auth.protect();
     
-    // Additional check for admin-only routes
-    if (isAdminRoute(req)) {
-      const user = await currentUser();
-      
-      if (!user) {
-        // Shouldn't happen due to auth.protect() above, but just in case
-        return NextResponse.redirect(new URL('/sign-in', req.url));
-      }
-      
-      // Check if user has admin role in public metadata
-      const role = (user.publicMetadata?.role as string) || "learner";
-      
-      if (role !== "admin") {
-        // User is authenticated but not an admin - redirect to dashboard
-        return NextResponse.redirect(new URL('/dashboard', req.url));
-      }
-    }
+    // For admin routes, we'll check role in the page component itself
+    // Middleware can't access user metadata in Next.js 16, so we rely on page-level checks
   }
 });
 
